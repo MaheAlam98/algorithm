@@ -3,20 +3,27 @@ using namespace std;
 const int N=1e5+5;
 vector<int>adj[N];
 bool visited[N];
-void dfs(int s)
+void bfs(int s)
 {
+    queue<int>q;
+    q.push(s);
     visited[s]=true;
-    cout<<s<<" ";
-    for(int v:adj[s])
+    while(!q.empty())
     {
-      if(visited[v]==true) continue;
-      dfs(v);
+        int p=q.front();
+        cout<<p<<" "<<endl;
+        q.pop();
+        for(int v:adj[p])
+        {
+            if(visited[v]) continue;
+            q.push(v);
+            visited[v]=true;
+        }
     }
-
 }
 int main()
 {
-      int m,n;
+       int m,n;
       cout<<"Enter number of node and edges:"<<endl;
       cin >> m >> n;
       cout<<"Enter Edge connection:\n";
@@ -31,9 +38,7 @@ int main()
     cout<<"Enter source node:";
     int s;
     cin>>s;
-    cout<<"DFS:";
-    dfs(s);
-
+    cout<<"BFS:";
+    bfs(s);
     return 0;
 }
-
