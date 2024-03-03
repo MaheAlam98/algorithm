@@ -40,14 +40,16 @@ int main() {
     stack<int>st;
     topologySort(graph,visited,start,st);
     visited = vector<bool>(v+1,false);
-
+       int scc=0;
     while(!st.empty()){
 
         if(!visited[st.top()]){
             dfs(rev_graph,visited,st.top());
             cout << endl;
+            scc++;
         }
         st.pop();
     }
+    cout<<"total scc:"<<scc<<endl;
 
 }
