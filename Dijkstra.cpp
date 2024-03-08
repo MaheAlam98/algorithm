@@ -1,8 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define ll long long
 const int N=1e5+5;
 vector<pair<int,int>>adj[N];
 int dis[N];
+int p[N];
 void dijkstra(int s)
 {
     queue<int>q;
@@ -21,6 +23,7 @@ void dijkstra(int s)
             {
                 dis[childNode]=dis[parent]+cost;
                 q.push(childNode);
+                p[childNode]=parent;
 
             }
 
@@ -55,9 +58,29 @@ int main()
         dis[i]=INT_MAX;
     }
     dijkstra(s);
-    for(int i=1;i<=n;i++)
-    {
-
-        cout<<"node"<<i<<":"<<dis[i]<<endl;
+    
+    vector<ll> path;
+    ll node = n;
+    while (p[node] != node) {
+        path.push_back(node);
+        node = p[node];
     }
+    path.push_back(1);
+    reverse(path.begin(), path.end());
+    ll cost = 0;
+    for(ll i = 0; i < path.size()-1; i++)
+    {
+        for(auto j : adj[path[i]])
+        {
+            if(j.first == path[i+1]) cost += j.second;
+        }
+    }
+    cout << "Shortest path: ";
+    for (ll i = 1; i < path.size(); i++) {
+
+        cout << path[i] << " ";
+    }
+    cout << endl;
+    cout << "Total Cost: " << cost << endl;
+
 }
