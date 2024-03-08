@@ -23,6 +23,7 @@ int main()
     cout<<"Enter the size of knapsack: ";
     cin>>s;
     int dp[n+1][s+1];
+    bool selected[n+1][s+1];
     for(int i=0;i<=n;i++)
     {
         for(int j=0;j<=s;j++)
@@ -30,6 +31,7 @@ int main()
             if(i==0 || j==0)
             {
                 dp[i][j]=0;
+                selected[i][j]=false;
             }
         }
     }
@@ -41,13 +43,28 @@ int main()
             if(w[i-1]<=j)
             {
                 dp[i][j]=max(v[i-1]+dp[i-1][j-w[i-1]],dp[i-1][j]);
+                selected[i][j]=true;
             }
             else
             {
                 dp[i][j]=dp[i-1][j];
+                selected[i][j]=true;
             }
         }
     }
+
+    int i = n;
+    int W=s;
+    vector<int> selectedItems;
+    while (i > 0 && W > 0) {
+        if (selected[i][W]) {
+            selectedItems.push_back(i - 1);
+            W -= w[i - 1];
+        } 
+        i--;
+    }
+    reverse(selectedItems.begin(), selectedItems.end());
+
 
     cout<<"\n\nHere the table of all value :\n";
     for(int i=0;i<=n;i++)
@@ -59,8 +76,14 @@ int main()
         }
         cout<<endl;
     }
-    cout<<"\nMaximum Value:"<<dp[n][s];
+    cout<<"\nMaximum Value:"<<dp[n][s]<<endl;
+    cout<<"Selecting items:";
+    for(int i=0;i<selectedItems.size();i++)
+    {
+        cout<<selectedItems[i]<<" ";
+    }
 
 }
+
 
 
